@@ -19,8 +19,11 @@ jobs:
       - run: npm ci
       - run: npm run build:exe
 
+      - name: Список собранных файлов
+        run: dir release
+
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: Musiabux-exe
-          path: release/*.exe
+          path: release/

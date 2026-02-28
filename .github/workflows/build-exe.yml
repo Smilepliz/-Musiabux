@@ -1,9 +1,12 @@
-# Сборка exe при каждом пуше в main — exe можно скачать в Actions → Artifacts
+# Сборка exe при каждом пуше в main. Exe: вкладка Releases или Actions → Artifacts
 name: Build EXE
 
 on:
   push:
     branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -22,8 +25,28 @@ jobs:
       - name: Список собранных файлов
         run: dir release
 
-      - name: Upload EXE
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Musiabux-exe
           path: release/
+
+      - name: Обновить тег exe для релиза
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git tag -f exe
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} exe --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release с exe (вкладка Releases)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: exe
+          name: Musiabux (exe)
+          draft: false
+          replace_assets: true
+          files: release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

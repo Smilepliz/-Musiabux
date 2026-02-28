@@ -83,7 +83,7 @@ export default function App() {
         <h2 style={{ fontSize: '1.1rem', marginTop: 0, marginBottom: 12 }}>Тип требования</h2>
         <select
           value={requirementType}
-          onChange={(e) => {}}
+          onChange={() => {}}
           style={{ ...inputStyle, maxWidth: 400 }}
         >
           <option value="mrot_parttime">Зарплата ниже МРОТ (неполная ставка)</option>

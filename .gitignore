@@ -6,6 +6,7 @@ node_modules/
 dist/
 dist-ssr/
 release/
+tsconfig.tsbuildinfo
 
 # Local env
 .env

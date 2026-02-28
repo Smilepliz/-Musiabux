@@ -20,6 +20,7 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
+      - run: npm install app-builder-bin --no-save
       - run: npm run build:exe
 
       - name: Список собранных файлов
@@ -48,5 +49,16 @@ jobs:
           draft: false
           replace_assets: true
           files: release/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Добавить exe в корень репозитория
+        run: |
+          copy "release\*.exe" "Musiabux.exe"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add Musiabux.exe
+          git diff --staged --quiet || git commit -m "Add Musiabux.exe [skip ci]"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

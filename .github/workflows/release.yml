@@ -1,9 +1,13 @@
-name: Build EXE for Release
+# Сборка exe при создании версионного тега (v1.0.0, v2.0.0 и т.д.)
+name: Release (versioned tag)
 
 on:
   push:
     tags:
       - 'v*'
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -23,10 +27,15 @@ jobs:
       - name: Build EXE
         run: npm run build:exe
 
-      - name: Upload to Release
+      - name: List built files
+        run: dir release
+
+      - name: Create Release and upload EXE
         uses: softprops/action-gh-release@v2
         with:
-          files: release/*.exe
+          tag_name: ${{ github.ref_name }}
+          name: Musiabux ${{ github.ref_name }}
           draft: false
+          files: release/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

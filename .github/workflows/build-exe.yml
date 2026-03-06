@@ -29,6 +29,13 @@ jobs:
       - name: List built files
         run: dir release
 
+      - name: Prepare single EXE for Release (fix Windows path/glob)
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path release -Filter "*.exe" | Select-Object -First 1
+          if (-not $exe) { Write-Error "No exe in release/"; exit 1 }
+          Copy-Item $exe.FullName -Destination "release/Musiabux.exe" -Force
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -49,15 +56,14 @@ jobs:
           name: Musiabux (exe)
           draft: false
           replace_assets: true
-          files: release/*.exe
+          files: release/Musiabux.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy EXE to repo root and push
         run: |
-          $exe = Get-ChildItem -Path release -Filter "*.exe" | Select-Object -First 1
-          if (-not $exe) { Write-Error "No exe found in release/"; exit 1 }
-          Copy-Item $exe.FullName -Destination "Musiabux.exe"
+          if (-not (Test-Path "release/Musiabux.exe")) { Write-Error "release/Musiabux.exe not found"; exit 1 }
+          Copy-Item "release/Musiabux.exe" -Destination "Musiabux.exe"
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add Musiabux.exe

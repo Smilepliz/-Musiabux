@@ -38,5 +38,6 @@
 
 ## Для владельца репозитория
 
-- **GitHub Pages:** репозиторий → **Settings** → **Pages** → **Source**: **GitHub Actions**. После первого пуша подождите 1–2 минуты.
+- **GitHub Pages:** репозиторий → **Settings** → **Pages** → **Build and deployment** → **Source**: выберите **GitHub Actions**. Без этого проверка «Deploy to GitHub Pages» в CI будет падать.
 - Exe собирается автоматически при пуше в `main` и попадает в [Releases](https://github.com/Smilepliz/-Musiabux/releases) и в корень репозитория.
+- Если падает **Build EXE**: откройте вкладку Actions → выберите упавший запуск → откройте job **build** и посмотрите, на каком шаге ошибка (часто это `npm run build:exe` или шаг с Release).

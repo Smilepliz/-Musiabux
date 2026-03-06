@@ -1,4 +1,10 @@
-import { Card, Form, Input, Typography } from 'antd'
+import { Card, Form, Input, Select, Typography } from 'antd'
+
+const NDS_RATE_OPTIONS = [
+  { value: '20', label: '20%' },
+  { value: '10', label: '10%' },
+  { value: '0', label: '0%' },
+]
 
 export function NdsSection() {
   return (
@@ -7,8 +13,20 @@ export function NdsSection() {
       style={{ marginBottom: 24 }}
     >
       <Typography.Paragraph type="secondary" style={{ marginBottom: 16 }}>
-        Укажите период, суть расхождений и текст пояснений для ответа в ФНС.
+        Укажите ставку, период, суть расхождений и текст пояснений для ответа в ФНС.
       </Typography.Paragraph>
+      <Form.Item
+        name="ndsRate"
+        label="Ставка НДС"
+        rules={[{ required: true, message: 'Выберите ставку НДС' }]}
+      >
+        <Select
+          placeholder="Выберите ставку"
+          options={NDS_RATE_OPTIONS}
+          style={{ width: 120 }}
+          allowClear
+        />
+      </Form.Item>
       <Form.Item
         name="ndsPeriod"
         label="Налоговый период"

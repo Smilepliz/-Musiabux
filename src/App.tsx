@@ -33,7 +33,7 @@ export default function App() {
       const fieldsToValidate =
         type === 'mrot_parttime'
           ? ['requirementType', 'inn', 'kpp', 'orgName', 'requirementNumber', 'requirementDate', 'employees']
-          : ['requirementType', 'inn', 'kpp', 'orgName', 'requirementNumber', 'requirementDate', 'ndsPeriod', 'ndsExplanationText']
+          : ['requirementType', 'inn', 'kpp', 'orgName', 'requirementNumber', 'requirementDate', 'ndsRate', 'ndsPeriod', 'ndsExplanationText']
       await form.validateFields(fieldsToValidate)
       const allValues = form.getFieldsValue()
       const requirementDate =
@@ -53,6 +53,7 @@ export default function App() {
           snils: e.snils ?? '',
         })),
         mrot,
+        ndsRate: allValues.ndsRate ?? '',
         ndsPeriod: allValues.ndsPeriod ?? '',
         ndsDiscrepancySummary: allValues.ndsDiscrepancySummary ?? '',
         ndsExplanationText: allValues.ndsExplanationText ?? '',
@@ -84,6 +85,7 @@ export default function App() {
           requirementNumber: '',
           requirementDate: undefined,
           employees: [defaultEmployee()],
+          ndsRate: undefined,
           ndsPeriod: '',
           ndsDiscrepancySummary: '',
           ndsExplanationText: '',

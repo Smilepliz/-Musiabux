@@ -20,6 +20,7 @@ export type FnsResponseData = {
   requirementDate: string
   employees: { fio: string; snils: string }[]
   mrot: string
+  ndsRate?: string
   ndsPeriod?: string
   ndsDiscrepancySummary?: string
   ndsExplanationText?: string
@@ -41,6 +42,7 @@ export function buildFnsResponseDocument(data: FnsResponseData): Document {
     requirementDate,
     employees,
     mrot,
+    ndsRate = '',
     ndsPeriod = '',
     ndsDiscrepancySummary = '',
     ndsExplanationText = '',
@@ -175,11 +177,12 @@ export function buildFnsResponseDocument(data: FnsResponseData): Document {
       }),
     ]
   } else {
+    const rateText = ndsRate ? ` (ставка ${ndsRate}%)` : ''
     const ndsParagraphs: Paragraph[] = [
       new Paragraph({
         children: [
           new TextRun({
-            text: `По требованию представляем пояснения по декларации по НДС за ${ndsPeriod || '__________'}.`,
+            text: `По требованию представляем пояснения по декларации по НДС${rateText} за ${ndsPeriod || '__________'}.`,
             size: 22,
           }),
         ],

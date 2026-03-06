@@ -60,7 +60,7 @@ jobs:
           tag_name: exe
           name: Musiabux (exe)
           draft: false
-          replace_assets: true
+          overwrite_files: true
           files: |
             release/Musiabux.exe
         env:

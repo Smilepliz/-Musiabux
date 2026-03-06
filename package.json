@@ -11,6 +11,7 @@
     "build:exe": "npm run build && electron-builder --win"
   },
   "dependencies": {
+    "antd": "^6.3.1",
     "docx": "^9.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -27,8 +28,13 @@
   "build": {
     "appId": "com.musiabux.app",
     "productName": "Musiabux",
-    "files": ["dist", "electron"],
-    "directories": { "output": "release" },
+    "files": [
+      "dist",
+      "electron"
+    ],
+    "directories": {
+      "output": "release"
+    },
     "win": {
       "target": "portable",
       "signAndEditExecutable": false

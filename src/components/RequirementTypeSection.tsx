@@ -3,7 +3,7 @@ import { Card, Form, Select } from 'antd'
 const REQUIREMENT_TYPE_OPTIONS = [
   { value: 'mrot_parttime', label: 'Зарплата ниже МРОТ (неполная ставка)' },
   { value: 'nds_explanation', label: 'Пояснения по расхождениям в декларации НДС' },
-] as const
+]
 
 export function RequirementTypeSection() {
   return (

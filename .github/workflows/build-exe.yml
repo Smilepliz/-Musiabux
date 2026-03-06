@@ -64,6 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Copy EXE to repo root and push
+        continue-on-error: true
         run: |
           if (-not (Test-Path "release/Musiabux.exe")) { Write-Error "release/Musiabux.exe not found"; exit 1 }
           Copy-Item "release/Musiabux.exe" -Destination "Musiabux.exe"

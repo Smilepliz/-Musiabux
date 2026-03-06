@@ -18,10 +18,10 @@
 
 ### 2️⃣ Один клик — скачать exe и запустить
 
-1. Скачайте программу одним кликом: **[Musiabux.exe](https://github.com/Smilepliz/-Musiabux/releases/download/exe/Musiabux.exe)** (скачивание с вкладки Releases).
+1. Скачайте программу: **[прямая ссылка Musiabux.exe](https://github.com/Smilepliz/-Musiabux/releases/download/exe/Musiabux.exe)** или откройте [Releases](https://github.com/Smilepliz/-Musiabux/releases) и скачайте exe вручную.
 2. Запустите скачанный файл — установка не требуется, работает без интернета.
 
-Если ссылка не сработала: откройте [Releases](https://github.com/Smilepliz/-Musiabux/releases) и скачайте **Musiabux.exe** вручную.
+*(Ссылка заработает после успешного прохождения workflow «Build EXE» в Actions.)*
 
 ---
 

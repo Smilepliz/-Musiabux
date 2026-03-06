@@ -25,6 +25,8 @@ jobs:
 
       - name: Build EXE
         run: npm run build:exe
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: List built files
         run: dir release

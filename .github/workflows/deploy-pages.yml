@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Build for GitHub Pages
         run: npm run build
+      - name: Verify dist output
+        run: ls -la dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

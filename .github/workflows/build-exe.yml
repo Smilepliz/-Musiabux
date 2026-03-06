@@ -28,6 +28,9 @@ jobs:
 
       - name: Build EXE
         run: npm run build:exe
+        env:
+          DEBUG: electron-builder
+        timeout-minutes: 15
 
       - name: List built files
         run: dir release
@@ -73,4 +76,15 @@ jobs:
           git add Musiabux.exe
           git commit -m "Add Musiabux.exe [skip ci]" || exit 0
           git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:main
+        shell: pwsh
+
+      - name: Diagnostic on failure
+        if: failure()
+        run: |
+          echo "=== FAILED: see the FIRST red step above for the error ==="
+          echo "=== Release folder contents ==="
+          dir release 2>$null || echo "release/ missing"
+          echo "=== Node/npm ==="
+          node -v
+          npm -v
         shell: pwsh

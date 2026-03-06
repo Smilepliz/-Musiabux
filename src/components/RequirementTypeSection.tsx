@@ -10,6 +10,10 @@ export function RequirementTypeSection() {
               value: 'mrot_parttime',
               label: 'Зарплата ниже МРОТ (неполная ставка)',
             },
+            {
+              value: 'nds_explanation',
+              label: 'Пояснения по расхождениям в декларации НДС',
+            },
           ]}
           style={{ maxWidth: 400 }}
         />

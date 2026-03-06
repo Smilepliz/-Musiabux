@@ -7,6 +7,7 @@ import {
   OrgDetails,
   RequirementSection,
   EmployeesSection,
+  NdsSection,
   ActionsSection,
 } from './components'
 
@@ -16,6 +17,7 @@ const defaultEmployee = (): EmployeeFormItem => ({ fio: '', snils: '' })
 
 export default function App() {
   const [form] = Form.useForm()
+  const requirementType = Form.useWatch('requirementType', form) ?? 'mrot_parttime'
   const [mrot, setMrot] = useState<string>('27 093')
   const [mrotSource, setMrotSource] = useState<string>('Федеральный МРОТ на 2026 г.')
   const [downloadInfo, setDownloadInfo] = useState<{ filename: string } | null>(null)
@@ -27,23 +29,33 @@ export default function App() {
 
   const onDownloadWord = async () => {
     try {
-      const values = await form.validateFields()
+      const type = form.getFieldValue('requirementType') ?? 'mrot_parttime'
+      const fieldsToValidate =
+        type === 'mrot_parttime'
+          ? ['requirementType', 'inn', 'kpp', 'orgName', 'requirementNumber', 'requirementDate', 'employees']
+          : ['requirementType', 'inn', 'kpp', 'orgName', 'requirementNumber', 'requirementDate', 'ndsPeriod', 'ndsExplanationText']
+      await form.validateFields(fieldsToValidate)
+      const allValues = form.getFieldsValue()
       const requirementDate =
-        values.requirementDate && dayjs.isDayjs(values.requirementDate)
-          ? (values.requirementDate as Dayjs).format('YYYY-MM-DD')
-          : String(values.requirementDate ?? '')
+        allValues.requirementDate && dayjs.isDayjs(allValues.requirementDate)
+          ? (allValues.requirementDate as Dayjs).format('YYYY-MM-DD')
+          : String(allValues.requirementDate ?? '')
       const { downloadFnsResponseDocx } = await import('./generateFnsResponseDoc')
       const filename = await downloadFnsResponseDocx({
-        inn: values.inn ?? '',
-        kpp: values.kpp ?? '',
-        orgName: values.orgName ?? '',
-        requirementNumber: values.requirementNumber ?? '',
+        requirementType: type,
+        inn: allValues.inn ?? '',
+        kpp: allValues.kpp ?? '',
+        orgName: allValues.orgName ?? '',
+        requirementNumber: allValues.requirementNumber ?? '',
         requirementDate,
-        employees: (values.employees ?? []).map((e: EmployeeFormItem) => ({
+        employees: (allValues.employees ?? []).map((e: EmployeeFormItem) => ({
           fio: e.fio ?? '',
           snils: e.snils ?? '',
         })),
         mrot,
+        ndsPeriod: allValues.ndsPeriod ?? '',
+        ndsDiscrepancySummary: allValues.ndsDiscrepancySummary ?? '',
+        ndsExplanationText: allValues.ndsExplanationText ?? '',
       })
       setDownloadInfo({ filename })
       setTimeout(() => setDownloadInfo(null), 12000)
@@ -72,13 +84,18 @@ export default function App() {
           requirementNumber: '',
           requirementDate: undefined,
           employees: [defaultEmployee()],
+          ndsPeriod: '',
+          ndsDiscrepancySummary: '',
+          ndsExplanationText: '',
         }}
       >
         <RequirementTypeSection />
         <OrgDetails />
         <RequirementSection />
-        <EmployeesSection />
+        {requirementType === 'mrot_parttime' && <EmployeesSection />}
+        {requirementType === 'nds_explanation' && <NdsSection />}
         <ActionsSection
+          showMrot={requirementType === 'mrot_parttime'}
           mrot={mrot}
           mrotSource={mrotSource}
           downloadInfo={downloadInfo}

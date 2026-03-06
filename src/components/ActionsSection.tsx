@@ -1,6 +1,7 @@
 import { Alert, Button, Card, Space, Typography } from 'antd'
 
 type ActionsSectionProps = {
+  showMrot: boolean
   mrot: string
   mrotSource: string
   downloadInfo: { filename: string } | null
@@ -9,6 +10,7 @@ type ActionsSectionProps = {
 }
 
 export function ActionsSection({
+  showMrot,
   mrot,
   mrotSource,
   downloadInfo,
@@ -17,17 +19,23 @@ export function ActionsSection({
 }: ActionsSectionProps) {
   return (
     <Card title="Актуальные данные" style={{ marginBottom: 24 }}>
-      <Typography.Paragraph style={{ marginBottom: 4 }}>
-        МРОТ (для справки в ответе): <strong>{mrot} ₽</strong>
-      </Typography.Paragraph>
-      <Typography.Paragraph
-        type="secondary"
-        style={{ marginBottom: 16, fontSize: 12 }}
-      >
-        {mrotSource}
-      </Typography.Paragraph>
+      {showMrot && (
+        <>
+          <Typography.Paragraph style={{ marginBottom: 4 }}>
+            МРОТ (для справки в ответе): <strong>{mrot} ₽</strong>
+          </Typography.Paragraph>
+          <Typography.Paragraph
+            type="secondary"
+            style={{ marginBottom: 16, fontSize: 12 }}
+          >
+            {mrotSource}
+          </Typography.Paragraph>
+        </>
+      )}
       <Space wrap>
-        <Button onClick={onUpdateData}>Обновить актуальные данные</Button>
+        {showMrot && (
+          <Button onClick={onUpdateData}>Обновить актуальные данные</Button>
+        )}
         <Button type="primary" onClick={onDownloadWord}>
           Скачать ответ (Word)
         </Button>

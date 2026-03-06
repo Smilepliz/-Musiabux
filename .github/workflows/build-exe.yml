@@ -45,21 +45,21 @@ jobs:
           name: Musiabux-exe
           path: release/
 
-      - name: Update tag 'exe' and create Release
+      - name: Verify EXE for release
+        shell: pwsh
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git tag -f exe
-          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" exe --force
+          Get-ChildItem -Path release -Filter "*.exe" | ForEach-Object { Write-Host "Found: $($_.FullName)" }
+          if (-not (Test-Path "release/Musiabux.exe")) { throw "release/Musiabux.exe missing" }
 
-      - name: Attach EXE to Release (tag exe)
+      - name: Create Release and upload EXE (tag exe)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: exe
           name: Musiabux (exe)
           draft: false
           replace_assets: true
-          files: release/Musiabux.exe
+          files: |
+            release/Musiabux.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

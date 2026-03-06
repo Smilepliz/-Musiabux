@@ -53,7 +53,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: 24 }}>
+    <div style={{ maxWidth: 1440, margin: '0 auto', padding: 24 }}>
       <Typography.Title level={2} style={{ marginBottom: 8 }}>
         Musiabux
       </Typography.Title>
